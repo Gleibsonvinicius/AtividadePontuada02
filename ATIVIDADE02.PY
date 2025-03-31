@@ -33,8 +33,8 @@ while True:
         case 0:
             break
         case _ if codigo_pedido in menu:
-            pedidos.append(menu[codigo_pedido])  # Adiciona o prato ao pedido
-            total += menu[codigo_pedido][1]      # Soma o preço ao total
+            pedidos.append(menu[codigo_pedido])  
+            total += menu[codigo_pedido][1]      
             print(f"Você adicionou {menu[codigo_pedido][0]} ao seu pedido.")
         case _:
             print("Código inválido. Tente novamente.")
@@ -44,7 +44,7 @@ while True:
     if continuar.lower() != 's':
         break
 
-# Se houver pedidos, solicita forma de pagamento
+
 if pedidos:
     forma_pagamento = input("Escolha a forma de pagamento (1 - À vista, 2 - Cartão de crédito): ")
     desconto_acrescimo = 0.0
@@ -64,7 +64,7 @@ if pedidos:
             total -= desconto_acrescimo
             forma_pagamento_str = "À vista"
 
-    # Exibindo os resultados
+
     print("\nResumo do Pedido:")
     for prato in pedidos:
         print(f"{prato[0]} - R${prato[1]:.2f}")
