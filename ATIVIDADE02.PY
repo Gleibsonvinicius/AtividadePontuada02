@@ -1,7 +1,7 @@
 import os
 
-os.system ("cls||clear")
 
+os.system("cls||clear")
 
 
 menu = {
@@ -12,66 +12,66 @@ menu = {
     5: ("Muqueca", 18.00),
     6: ("X-Burguer", 22.00),
     7: ("Batata frita", 27.00),
-
 }
 
-
-pedidos = input
-valor_total = 0.0
-
-
-print("Menu de Pratos:")
-for codigo, (nome, preco) in menu.items():
-    print(f"Código: {codigo}, Nome: {nome}, Preço: R$ {preco:.2f}")
-
+pedidos = [] # o colchete que eu utilizei foi pra criar uma lista com elementos no caso lasanha , pizza , X burger , etcs
+total = 0.0
 
 while True:
-    codigo = int(input("Digite o código do prato desejado (ou 0 para finalizar): "))
-    
-    if codigo == 0:
-        break
-    
-    if codigo in menu:
-        pedidos += (menu[codigo],)  
-        valor_total += menu[codigo][1]
-        print(f"Prato {menu[codigo][0]} adicionado ao pedido.")
-    else:
-        print("Código inválido. Tente novamente.")
+    print("\nMenu de Pratos:")
+    for codigo, (nome, preco) in menu.items():
+        print(f"Código: {codigo}, Nome: {nome}, Preço: R${preco:.2f}")
 
    
-    continuar = input("Deseja adicionar mais pratos? (s/n): ")
-    if continuar != 's':
+    try:
+        codigo_pedido = int(input("Digite o código do prato desejado (ou '0' para finalizar): "))
+    except ValueError:
+        print("Código inválido. Tente novamente.")
+        continue
+
+    match codigo_pedido:
+        case 0:
+            break
+        case _ if codigo_pedido in menu:
+            pedidos.append(menu[codigo_pedido])  # Adiciona o prato ao pedido
+            total += menu[codigo_pedido][1]      # Soma o preço ao total
+            print(f"Você adicionou {menu[codigo_pedido][0]} ao seu pedido.")
+        case _:
+            print("Código inválido. Tente novamente.")
+
+    # Perguntar se o usuário deseja fazer outro pedido
+    continuar = input("Deseja fazer outro pedido? (s/n): ")
+    if continuar.lower() != 's':
         break
 
-
-while True:
+# Se houver pedidos, solicita forma de pagamento
+if pedidos:
     forma_pagamento = input("Escolha a forma de pagamento (1 - À vista, 2 - Cartão de crédito): ")
-    
+    desconto_acrescimo = 0.0
+
     match forma_pagamento:
-        case '1':
-            desconto = valor_total * 0.10
-            valor_final = valor_total - desconto
-            tipo_pagamento = "À vista"
-            break
-        case '2':
-            acrescimo = valor_total * 0.10
-            valor_final = valor_total + acrescimo
-            tipo_pagamento = "Cartão de crédito"
-            break
+        case "1":
+            desconto_acrescimo = total * 0.10  # Desconto de 10%
+            total -= desconto_acrescimo
+            forma_pagamento_str = "À vista"
+        case "2":
+            desconto_acrescimo = total * 0.10  # Acréscimo de 10%
+            total += desconto_acrescimo
+            forma_pagamento_str = "Cartão de crédito"
         case _:
-            print("Forma de pagamento inválida. Tente novamente.")
+            print("Forma de pagamento inválida. Considerando à vista por padrão.")
+            desconto_acrescimo = total * 0.10  # Desconto de 10%
+            total -= desconto_acrescimo
+            forma_pagamento_str = "À vista"
 
+    # Exibindo os resultados
+    print("\nResumo do Pedido:")
+    for prato in pedidos:
+        print(f"{prato[0]} - R${prato[1]:.2f}")
 
-print("\nResumo do Pedido:")
-for prato in pedidos:
-    print(f"Prato: {prato[0]}, Preço: R$ {prato[1]:.2f}")
-
-print(f"Subtotal: R$ {valor_total:.2f}")
-print(f"Forma de pagamento: {tipo_pagamento}")
-
-if forma_pagamento == '1':
-    print(f"Desconto aplicado: R$ {desconto:.2f}")
+    print(f"Subtotal: R${sum(preco for _, preco in pedidos):.2f}")
+    print(f"Forma de pagamento: {forma_pagamento_str}")
+    print(f"Desconto ou acréscimo: R${desconto_acrescimo:.2f}")
+    print(f"Total a pagar: R${total:.2f}")
 else:
-    print(f"Acréscimo aplicado: R$ {acrescimo:.2f}")
-
-print(f"Valor final a ser pago: R$ {valor_final:.2f}")
+    print("Nenhum pedido foi realizado.")
