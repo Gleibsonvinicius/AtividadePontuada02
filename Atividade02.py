@@ -13,7 +13,7 @@ menu = {
     7: ("Batata frita", 27.00),
 }
 
-subtotal = 0.0
+subtotal = 0
 
 
 print("Menu de Pratos:")
