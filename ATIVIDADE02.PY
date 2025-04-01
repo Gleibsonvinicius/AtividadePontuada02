@@ -38,20 +38,20 @@ forma_pagamento = input("Escolha a forma de pagamento (1 para à vista / 2 para 
 
 
 if forma_pagamento == "1":  
-    desconto = subtotal * 0.10  
+    desconto = subtotal  * 0.10
     valor_final = subtotal - desconto
     forma_pagamento_desc = "à vista"
     ajuste_desc = f"Desconto aplicado: R$ {desconto:.2f}"
 elif forma_pagamento == "2":  
-    ajuste = subtotal * 0.10  
-    valor_final = subtotal + ajuste
+    valor_final = subtotal * 1.10
+    ajuste = valor_final - subtotal
     forma_pagamento_desc = "cartão de crédito"
     ajuste_desc = f"Acréscimo aplicado: R$ {ajuste:.2f}"
 else:
     ajuste = 0
     valor_final = subtotal  
     forma_pagamento_desc = "inválida"
-    ajuste_desc = ""
+
 
 
 print("\nResumo do Pedido:")
